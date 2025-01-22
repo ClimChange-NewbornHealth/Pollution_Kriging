@@ -13,5 +13,6 @@ Fondecyt Nº 11240322: Climate change and urban health: how air pollution, tempe
 
 Falta:
 
-Data --> counas.shp
+Data --> comunas.shp
+
 Results --> exposure.csv
