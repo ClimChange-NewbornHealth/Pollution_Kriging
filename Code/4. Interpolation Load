@@ -32,35 +32,3 @@ pm25 <- pm25 %>%
       TRUE ~ municipio
     )
   )
-
-# Import georeferenced dataset
-
-comunas <- st_read("datos/comunas/comunas.shp")
-
-# Clean variable names
-
-comunas <- clean_names(comunas)
-
-# Standardize municipality names
-
-comunas <- comunas %>%
-  mutate(
-    comuna = case_when(
-      comuna == "Peñalolén" ~ "Penalolen",
-      comuna == "Ñuñoa" ~ "Nunoa",
-      comuna == "San Joaquín" ~ "San Joaquin",
-      comuna == "Maipú" ~ "Maipu",
-      comuna == "Conchalí" ~ "Conchali",
-      comuna == "San Ramón" ~ "San Ramon",
-      comuna == "Estación Central" ~ "Estacion Central",
-      TRUE ~ comuna
-    )
-  )
-
-# Select the Santiago metropolitan area
-
-comunas_santiago <- comunas %>% 
-  filter(provincia == "Santiago" | comuna == "Puente Alto")
-
-# Process coordinates
-comunas_santiago <- st_transform(comunas_santiago, crs = 4326)
