@@ -17,6 +17,8 @@ Data --> comunas.shp
 
 Results --> exposure.csv
 
+![](Figures/conurb_map.jpg)
+
 ![](Figures/interpolation_example1.jpg)
 
 ![](Figures/interpolation_summer1.jpg)
