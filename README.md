@@ -10,3 +10,8 @@ Fondecyt Nº 11240322: Climate change and urban health: how air pollution, tempe
 📬 José Daniel Conejeros (jdconejeros@uc.cl) - Research Assistant
 
 📬 Ismael Bravo (ibravor@estudiante.uc.cl) - Research Assistant
+
+Falta:
+
+Data --> counas.shp
+Results --> exposure.csv
