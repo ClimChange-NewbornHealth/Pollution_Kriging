@@ -30,3 +30,39 @@ interpol <- data.frame(
               -33.478310908324865, -33.48539726770371, -33.543003929931196, -33.436823898107754, 
               -33.39831027441586)
 )
+
+# Import georeferenced dataset
+
+comunas <- st_read("datos/comunas/comunas.shp")
+
+# Clean variable names
+
+comunas <- clean_names(comunas)
+
+# Standardize municipality names
+
+comunas <- comunas %>%
+  mutate(
+    comuna = case_when(
+      comuna == "Peñalolén" ~ "Penalolen",
+      comuna == "Ñuñoa" ~ "Nunoa",
+      comuna == "San Joaquín" ~ "San Joaquin",
+      comuna == "Maipú" ~ "Maipu",
+      comuna == "Conchalí" ~ "Conchali",
+      comuna == "San Ramón" ~ "San Ramon",
+      comuna == "Estación Central" ~ "Estacion Central",
+      TRUE ~ comuna
+    )
+  )
+
+# Select the Santiago metropolitan area
+
+comunas_santiago <- comunas %>% 
+  filter(provincia == "Santiago" | comuna == "Puente Alto")
+
+# Process coordinates
+comunas_santiago <- st_transform(comunas_santiago, crs = 4326)
+
+# Import birth dataset
+
+births <- import("datos/births.RData")
