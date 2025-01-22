@@ -33,7 +33,7 @@ interpol <- data.frame(
 
 # Import georeferenced dataset
 
-comunas <- st_read("datos/comunas/comunas.shp")
+comunas <- st_read("comunas.shp")
 
 # Clean variable names
 
