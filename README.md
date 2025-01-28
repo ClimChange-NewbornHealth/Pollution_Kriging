@@ -32,7 +32,7 @@ The study aims to interpolate the spatial distribution of PM2.5 and O3 concentra
 
 The methodology employed ordinary kriging to generate interpolated pollution surfaces for different time periods. Initially, gstat was used for model fitting, but inconsistencies in variogram estimation led to adopting automap, which offers automatic variogram selection and improved stability in interpolation results. The kriging models were adjusted for 4,383 unique dates, leading to 8,766 kriging models (one per date and pollutant). The exposure estimation considered three windows: four days before birth, one month before birth, and the entire gestational period. A final dataset was created, linking interpolated pollution estimates to birth records, facilitating epidemiological analysis. 
 
-![code](https://skillicons.dev/icons?i=r) **Data and Code**: You can run code 01. to 07. with the data table `pollution.csv` downloading the data table [here]https://github.com/ClimChange-NewbornHealth/Pollution_Kriging/tree/main/Data).
+![code](https://skillicons.dev/icons?i=r) **Data and Code**: You can run code 01. to 07. with the data table `pollution.csv` downloading the data table [here](https://github.com/ClimChange-NewbornHealth/Pollution_Kriging/tree/main/Data).
 
 ## Principal Findings :sunny: :snowflake:
 
