@@ -40,7 +40,7 @@ The methodology employed ordinary kriging to generate interpolated pollution sur
 
 ![](Figures/conurb_map.jpg)
 
-**Figure 2.** Spatial Distribution of Interpolated Pollution Levels on December 20, 2015, and April 5, 2010.
+**Figure 2.** Spatial Distribution of Interpolated Pollution Levels on December 20, 2015.
 
 ![](Figures/interpolation_example1.jpg)
 
