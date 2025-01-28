@@ -44,10 +44,10 @@ The methodology employed ordinary kriging to generate interpolated pollution sur
 
 ![](Figures/interpolation_example1.jpg)
 
-**Figure 3.** Spatial Distribution of PM2.5 and O3 Concentrations During the Summer Season
+**Figure 3.** Spatial Distribution of PM2.5 and O3 Concentrations During the Summer Season.
 
 ![](Figures/interpolation_summer1.jpg)
 
-**Figure 4.** Spatial Distribution of PM2.5 and O3 Concentrations During the Winter Season
+**Figure 4.** Spatial Distribution of PM2.5 and O3 Concentrations During the Winter Season.
 
 ![](Figures/interpolation_winter1.jpg)
