@@ -93,21 +93,21 @@ graficar_interpolacion <- function(data,
                                    comunas = comunas_santiago,
                                    color_scale = "viridis") {
   
-  # Si el objeto `data` es un sf (datos espaciales), elimina la geometría para trabajar solo con atributos
+  # Elimina geometría si es un objeto sf
   if (inherits(data, "sf")) {
     data <- data %>% st_drop_geometry()
   }
   
-  # Filtra los datos para la fecha indicada y selecciona las columnas municipio y var1.pred (predicción)
+  # Filtra datos por fecha y selecciona columnas necesarias
   data_filtered <- data %>%
     filter(date == fecha) %>%
     select(municipio, var1.pred)
   
-  # Hace un join con el objeto espacial de comunas de Santiago para combinar las predicciones con la geometría
+  # Join con geometría de comunas
   data_comunas <- comunas %>%
     left_join(data_filtered, by = c("comuna" = "municipio"))
   
-  # Define los textos de título y leyenda dependiendo del contaminante
+  # Títulos según contaminante
   if (toupper(contaminante) == "PM25") {
     title <- expression("Atmospheric Concentration of PM"[2.5]*"")
     legend_name <- expression("PM"[2.5]*" concentration (µg/m³)")
@@ -118,19 +118,16 @@ graficar_interpolacion <- function(data,
     stop("Contaminante no reconocido. Usa 'PM25' o 'O3'.")
   }
   
-  # Selecciona la paleta de colores según el argumento color_scale
-  color_scale_used <- switch(tolower(color_scale),
-                             viridis = scale_fill_viridis_c(name = legend_name),
-                             blues = scale_fill_distiller(name = legend_name, 
-                                                         palette = "Blues", 
-                                                         direction = 1),
-                             reds = scale_fill_distiller(name = legend_name, 
-                                                        palette = "Reds", 
-                                                        direction = 1),
-                             stop("color_scale no reconocido. Usa 'viridis', 'blue' o 'red'.")
+  # Escalas de color personalizadas con scale_fill_gradientn()
+  color_scale_used <- switch(
+    tolower(color_scale),
+    viridis = scale_fill_gradientn(name = legend_name, colors = viridisLite::viridis(9)),
+    blues   = scale_fill_gradientn(name = legend_name, colors = RColorBrewer::brewer.pal(9, "Blues")),
+    reds    = scale_fill_gradientn(name = legend_name, colors = RColorBrewer::brewer.pal(9, "Reds")),
+    stop("color_scale no reconocido. Usa 'viridis', 'blues' o 'reds'.")
   )
   
-  # Genera el gráfico con ggplot
+  # Generación del gráfico
   plot <- ggplot() +
     geom_sf(data = data_comunas, aes(fill = var1.pred), color = "black") +
     color_scale_used +
@@ -139,8 +136,8 @@ graficar_interpolacion <- function(data,
     theme_minimal() +
     theme(
       legend.position = "bottom",
-      legend.title = element_text(size = 9),  
-      legend.text = element_text(size = 7)     
+      legend.title = element_text(size = 9),
+      legend.text = element_text(size = 7)
     )
   
   return(plot)
@@ -153,14 +150,14 @@ graficar_interpolacion <- function(data,
 # Crear gráfico 1
 g1 <- graficar_interpolacion(utm_pm25, # Seleccionar base
                              contaminante = "PM25", # Seleccionar contaminante
-                             fecha = "2020-06-20", # Seleccionar fecha
-                             color_scale = "blues") # Seleccionar escala (reds, blues, viridis)
+                             fecha = "2012-01-06", # Seleccionar fecha
+                             color_scale = "reds") # Seleccionar escala (reds, blues, viridis)
 
 
 # Crear gráfico 2
 g2 <- graficar_interpolacion(utm_o3,
                              contaminante = "O3",
-                             fecha = "2020-01-20",
+                             fecha = "2012-01-06",
                              color_scale = "reds")
 
 # Mostrar los dos gráficos
@@ -168,5 +165,5 @@ grid.arrange(g1, g2, ncol = 2)
 
 # Guardar figura
 muestra <- grid.arrange(g1, g2, ncol = 2)
-ggsave("outputs/kriging_2/figures/figure.jpg", 
+ggsave("outputs/kriging_2/figures/figure2.jpg", 
        plot = muestra, dpi = 800, width = 12, height = 6)
