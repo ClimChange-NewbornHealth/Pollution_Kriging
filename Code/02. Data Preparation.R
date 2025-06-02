@@ -1,8 +1,12 @@
-# Create the combined_data object from the data in "pollution.csv".
+#####################################
+### Cargar datos de contaminación ###
+#####################################
 
-combined_data <- import("pollution.csv")
+load("data/serie_mf.RData")
 
-# Generate a data frame with the coordinates of the points you wish to interpolate, including a label to identify each point. Optionally, you can perform interpolation on a grid.
+####################################
+### Crear datos de interpolación ###
+####################################
 
 interpol <- data.frame(
   municipio = c("Cerrillos", "Cerro Navia", "Conchalí", "El Bosque", "Estación Central", "Huechuraba", 
@@ -11,7 +15,7 @@ interpol <- data.frame(
                 "Pedro Aguirre Cerda", "Peñalolén", "Providencia", "Pudahuel", "Puente Alto", "Quilicura", 
                 "Quinta Normal", "Recoleta", "Renca", "San Joaquín", "San Miguel", "San Ramón", "Santiago", 
                 "Vitacura"),
-  longitud = c(-70.70296543799745, -70.72918515988233, -70.67072694243639, -70.66560743797827, 
+  long = c(-70.70296543799745, -70.72918515988233, -70.67072694243639, -70.66560743797827, 
                -70.68968897667844, -70.63499695788776, -70.65516260918014, -70.66398059565581, 
                -70.58697500365915, -70.63216515763008, -70.6297199027309, -70.53075157149945, 
                -70.59479280366511, -70.51998205948868, -70.69839545763092, -70.71834744001521, 
@@ -20,7 +24,7 @@ interpol <- data.frame(
                -70.7319775190104, -70.70195197667901, -70.64318033485851, -70.70423139754325, 
                -70.64180916920813, -70.64940518793082, -70.64383902634013, -70.6502137459926, 
                -70.60127564599428),
-  latitud = c(-33.4880371697236, -33.43400728577421, -33.396357425673976, -33.555787714445195, 
+  lat = c(-33.4880371697236, -33.43400728577421, -33.396357425673976, -33.555787714445195, 
               -33.45398550011404, -33.37527659137017, -33.422229485115835, -33.534475258870735, 
               -33.558461737545095, -33.54337634652961, -33.58204453281347, -33.453851685950745, 
               -33.41595503102711, -33.35325729143183, -33.52255435335837, -33.44243338653336, 
@@ -31,38 +35,40 @@ interpol <- data.frame(
               -33.39831027441586)
 )
 
-# Import georeferenced dataset
+###############################
+### Obtener coordenadas UTM ###
+###############################
 
-comunas <- st_read("comunas.shp")
+# Convertir puntos del data frame 'df' a objeto espacial
+df_sf <- st_as_sf(df, coords = c("long", "lat"), crs = 4326)  # CRS 4326 = WGS84
 
-# Clean variable names
+# Transformar a coordenadas UTM (Zona 19S, CRS 32719)
+df_utm <- st_transform(df_sf, crs = 32719)
 
-comunas <- clean_names(comunas)
-
-# Standardize municipality names
-
-comunas <- comunas %>%
-  mutate(
-    comuna = case_when(
-      comuna == "Peñalolén" ~ "Penalolen",
-      comuna == "Ñuñoa" ~ "Nunoa",
-      comuna == "San Joaquín" ~ "San Joaquin",
-      comuna == "Maipú" ~ "Maipu",
-      comuna == "Conchalí" ~ "Conchali",
-      comuna == "San Ramón" ~ "San Ramon",
-      comuna == "Estación Central" ~ "Estacion Central",
-      TRUE ~ comuna
-    )
+# Añadir columnas con coordenadas UTM al data frame original
+df <- df %>% 
+  bind_cols(
+    st_coordinates(df_utm) %>%
+      as.data.frame() %>%
+      rename(utm_x = X, utm_y = Y)
   )
 
-# Select the Santiago metropolitan area
+# Convertir 'interpol' a objeto espacial
+interpol_sf <- st_as_sf(interpol, coords = c("long", "lat"), crs = 4326)
 
-comunas_santiago <- comunas %>% 
-  filter(provincia == "Santiago" | comuna == "Puente Alto")
+# Transformar a UTM
+interpol_utm <- st_transform(interpol_sf, crs = 32719)
 
-# Process coordinates
-comunas_santiago <- st_transform(comunas_santiago, crs = 4326)
+# Añadir columnas con coordenadas UTM
+interpol <- interpol %>%
+  bind_cols(
+    st_coordinates(interpol_utm) %>%
+      as.data.frame() %>%
+      rename(utm_x = X, utm_y = Y)
+  )
 
-# Import birth dataset
+#####################
+### Guardar datos ###
+#####################
 
-births <- import("datos/births.RData")
+save(df, interpol, file = "outputs/kriging_2/pollution_inter.RData")
