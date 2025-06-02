@@ -1,13 +1,24 @@
+###################################
+### Cargar librerías necesarias ###
+###################################
+
+# 📦 Manipulación y limpieza de datos
 library(tidyverse)
-library(readxl)
-library(rio)
-library(dplyr)
+library(janitor)    
 library(lubridate)
-library(sp)
-library(sf)
-library(gstat)
-library(writexl)
-library(janitor)
-library(viridis)
-library(gifski)
+
+# 📥 Importación y exportación de datos
+library(readxl)    
+library(rio)       
+library(writexl)   
+
+# 🌍 Datos espaciales
+library(sp)        
+library(sf)        
+library(gstat)     
 library(automap)
+
+# 🎨 Visualización de datos
+library(viridis)
+library(gifski) 
+library(gridExtra)
