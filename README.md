@@ -18,11 +18,11 @@ Repository for the interpolation process using ordinary kriging for the concentr
 
 **Fondecyt Nº 11240322**: Climate change and urban health: how air pollution, temperature, and city structure relate to preterm birth.
 
-:moneybag: Funding: Fondecyt de Iniciación en Investigación Nº 11240322. Año 2024.
+:moneybag: Funding: Fondecyt de Iniciación en Investigación Nº 11240322.
 
-:mailbox_with_mail: Estela Blanco (<estela.blanco@uc.cl>) - **Principal Researcher**
+:mailbox_with_mail: Estela Blanco (<estela.blanco@uc.cl>) - **Principal Investigator**
 
-:mailbox_with_mail: Ismael Bravo (ibravor@estudiante.uc.cl) - Research Assistant
+:mailbox_with_mail: Ismael Bravo (ibravor@estudiante.uc.cl) - **Research Assistant**
 
 :mailbox_with_mail: José Daniel Conejeros (<jdconejeros@uc.cl>) - **Research Assistant**
 
